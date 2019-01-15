@@ -1,13 +1,16 @@
 package prueba.jcp.jorge.fragmentosejerciciociclos;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -20,15 +23,19 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentoListado extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String LISTADO_FINAL = "listado final";
-
-    // TODO: Rename and change types of parameters
     private ArrayList<CicleFlorida> listadoRecibidoPorParametros;
-    private TextView tvListado;
-    //private OnFragmentInteractionListener mListener;
 
+    // Atributos empleados en el ejercicio:
+    private RecyclerView rv;
+    private ImageButton img;
+
+    private Adaptador adap;
+    private LinearLayoutManager llm;
+
+    /**
+     * Constructor vacío.
+     */
     public FragmentoListado() {
         // Required empty public constructor
     }
@@ -40,7 +47,6 @@ public class FragmentoListado extends Fragment {
 
      * @return A new instance of fragment FragmentoListado.
      */
-    // TODO: Rename and change types and number of parameters
     public static FragmentoListado newInstance(ArrayList<CicleFlorida> listadoFinal) {
         FragmentoListado fragment = new FragmentoListado();
         Bundle args = new Bundle();
@@ -49,67 +55,68 @@ public class FragmentoListado extends Fragment {
         return fragment;
     }
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             listadoRecibidoPorParametros = getArguments().getParcelableArrayList(LISTADO_FINAL);
         }
+
     }
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String textoAMostrar=new String("");
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_fragmento_listado, container, false);
 
-        tvListado = v.findViewById(R.id.etListado);
-        for(CicleFlorida elElemento: listadoRecibidoPorParametros){
-            textoAMostrar=textoAMostrar+elElemento.getTitol()+"\n"+elElemento.getDescripcio()+"\n";
+        rv = (RecyclerView) v.findViewById(R.id.recycler);
+        img = (ImageButton) v.findViewById(R.id.cvImagenAdd);
 
-        }
-        tvListado.setText(textoAMostrar);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), AddGrado.class);
+                startActivityForResult(i, 1);
+                Log.d("intent", "test");
+            }
+        });
+
+        llm = new LinearLayoutManager(v.getContext());
+        adap = new Adaptador(listadoRecibidoPorParametros);
+
+        rv.setLayoutManager(llm);
+        rv.setAdapter(adap);
 
         return v;
     }
 
-
+    /**
+     *
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-       /*
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-        */
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        //mListener = null;
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Método onDetatch
      */
-
-    /*
-    public interface OnFragmentInteractionListener {
-    // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
-     */
 
 }

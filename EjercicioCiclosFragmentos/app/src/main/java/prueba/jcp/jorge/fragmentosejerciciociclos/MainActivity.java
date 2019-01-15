@@ -1,16 +1,16 @@
 package prueba.jcp.jorge.fragmentosejerciciociclos;
-/*
-Hector Gasco,Jorte Cerezo
- */
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * Entregable: recyclerView con fragments.
+ */
 public class MainActivity extends AppCompatActivity implements fragmentoBotones.ComunicacionFragmentoBotones,fragmentoNivel.comunicaTipoNivel{
 
     private ArrayList<CicleFlorida> listadoCursos;
@@ -19,32 +19,12 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
     private FragmentoListado fl;
     private FragmentManager fm;
     private FragmentTransaction ft;
-    Boolean btn1,btn2;
+    private Boolean btn1,btn2;
 
-    public void creaDades() {
-        CicleFlorida c;
-
-
-        c = new CicleFlorida("ESPORT", "Superior", "Animació d'activitats físiques i esportives", "Aquesta formació concertat de nivell superior cicle formes com un Tècnic Superior en activitats físiques i esportives, que està especialitzat en ensenyament i dinamització de jocs i activitats de fitness.");
-        listadoCursos.add(c);
-        c = new CicleFlorida("ESPORT", "Mitjà", "Conducción de actividades físico deportivas en el medio natural", "Este Ciclo Formativo de Grado Medio te forma como Técnico/a en Conducción de actividades físico deportivas en el medio natural, permitiéndote la especialización posterior como Técnico de Actividades físico deportivas.");
-        listadoCursos.add(c);
-        c = new CicleFlorida("EMPRESA", "Superior", "Gestión de Ventas y Espacios Comerciales", "Nuevo ciclo formativo de grado superior concertado por la GVA");
-        listadoCursos.add(c);
-        c = new CicleFlorida("EMPRESA", "Superior", "Marketing y publicidad", "Este ciclo te prepara para definir y efectuar el seguimiento de las políticas de marketing de una empresa.");
-        listadoCursos.add(c);
-        c = new CicleFlorida("EMPRESA", "Superior", "Administración y Finanzas / FP Dual BANKIA", "Dentro de la modalidad de FP Dual, Florida Universitaria, en colaboración con Bankia, pone en marcha el Ciclo de Técnico/a Superior en Administración y Finanzas. Este Ciclo Formativo se desarrolla 100% en modalidad DUAL, con 9 meses de estancia en las sucursales de Bankia, formándote con una alta especialización en el ámbito financiero bancario.");
-        listadoCursos.add(c);
-        c = new CicleFlorida("INFORMÀTICA", "Mitjà", "Sistemas Microinformáticos y Redes", "Este Ciclo Formativo de Grado Medio concertado te forma como Técnico/a en Sistemas Microinformáticos y Redes, permitiéndote la especialización posterior en el desarrollo de aplicaciones o la administración de sistemas informáticos.");
-        listadoCursos.add(c);
-        c = new CicleFlorida("INFORMÀTICA", "Superior", "Administración de Sistemas Informáticos y en Red", "Este Ciclo Formativo de Grado Superior concertado te forma como profesional de la informática y las comunicaciones, especializado en la configuración, administración y mantenimiento de sistemas informáticos en red.");
-        listadoCursos.add(c);
-        c = new CicleFlorida("INFORMÀTICA", "Superior", "Desarrollo de Aplicaciones Multiplataforma", "Este NUEVO Ciclo Formativo de Grado Superior concertado te forma como profesional de la informática y las comunicaciones, especializado en el desarrollo, implantación y mantenimiento de aplicaciones para diferentes plataformas tecnológicas.");
-        listadoCursos.add(c);
-        c = new CicleFlorida("INFORMÀTICA", "Superior", "Desarrollo de Aplicaciones Web", "ste NUEVO Ciclo Formativo de Grado Superior privado te forma como profesional de la informática y las comunicaciones, especializado en el desarrollo, implantación y mantenimiento de aplicaciones web");
-        listadoCursos.add(c);
-    }
-
+    /**
+     * Método onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +43,15 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
         //fb=(fragmentoBotones) fm.findFragmentById(R.id.fragmentoNivel);
         //ft.add(R.id.fragmentoNivel,fn);
         ft.commit();
+
     }
 
 
+    /**
+     *
+     * @param titulacion
+     * @return
+     */
     public ArrayList<CicleFlorida> filtrarTitulacion(String titulacion){
         CicleFlorida f =null;
         ArrayList<CicleFlorida> cursosFiltradosPorTitulacion = new ArrayList<CicleFlorida>();
@@ -96,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
         */
      return cursosFiltradosPorTitulacion;
     }
+
+    /**
+     *
+     * @param unListado
+     * @return
+     */
     public int numeroBotones(ArrayList<CicleFlorida> unListado){
         boolean hayMitja=false, haySuperior=false ;
         int resultado=0;
@@ -115,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
 
         return resultado;
     }
+
+    /**
+     * Muestra los ciclos de deportes.
+     */
     @Override
     public void mostrarCicloDeportes() {
         ArrayList<CicleFlorida> listadoFiltradoPorTitulacion;
@@ -134,14 +130,9 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
         ft.commit();
     }
 
-
-
-
-
-
-
-
-
+    /**
+     * Muestra ciclos de empresa.
+     */
     @Override
     public void mostrarCicloEmpresa() {
         // 1- filtrar listadoCiclosFlorida (el de Manel) y guardarlo en un nuevo arraylist
@@ -165,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
 
     }
 
+    /**
+     * Muestra ciclos de informática.
+     */
     @Override
     public void mostrarCicloInformatica() {
         // 1- filtrar listadoCiclosFlorida (el de Manel) y guardarlo en un nuevo arraylist
@@ -189,7 +183,11 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
 
     }
 
-
+    /**
+     * Filtra por medio o superior.
+     * @param nivel
+     * @param listado
+     */
     @Override
     public void filtrarTipoNivel(String nivel,ArrayList<CicleFlorida> listado) {
         ArrayList<CicleFlorida> arrayFiltradoPorNivel=new ArrayList<CicleFlorida>();
@@ -206,5 +204,32 @@ public class MainActivity extends AppCompatActivity implements fragmentoBotones.
         ft=fm.beginTransaction();
         ft.replace(R.id.fragment_llistat,fl);
         ft.commit();
+    }
+
+
+    /**
+     * Crea los datos de ciclos.
+     */
+    public void creaDades() {
+        CicleFlorida c;
+
+        c = new CicleFlorida("ESPORT", "Superior", "Animació d'activitats físiques i esportives", "Aquesta formació concertat de nivell superior cicle formes com un Tècnic Superior en activitats físiques i esportives, que està especialitzat en ensenyament i dinamització de jocs i activitats de fitness.");
+        listadoCursos.add(c);
+        c = new CicleFlorida("ESPORT", "Mitjà", "Conducción de actividades físico deportivas en el medio natural", "Este Ciclo Formativo de Grado Medio te forma como Técnico/a en Conducción de actividades físico deportivas en el medio natural, permitiéndote la especialización posterior como Técnico de Actividades físico deportivas.");
+        listadoCursos.add(c);
+        c = new CicleFlorida("EMPRESA", "Superior", "Gestión de Ventas y Espacios Comerciales", "Nuevo ciclo formativo de grado superior concertado por la GVA");
+        listadoCursos.add(c);
+        c = new CicleFlorida("EMPRESA", "Superior", "Marketing y publicidad", "Este ciclo te prepara para definir y efectuar el seguimiento de las políticas de marketing de una empresa.");
+        listadoCursos.add(c);
+        c = new CicleFlorida("EMPRESA", "Superior", "Administración y Finanzas / FP Dual BANKIA", "Dentro de la modalidad de FP Dual, Florida Universitaria, en colaboración con Bankia, pone en marcha el Ciclo de Técnico/a Superior en Administración y Finanzas. Este Ciclo Formativo se desarrolla 100% en modalidad DUAL, con 9 meses de estancia en las sucursales de Bankia, formándote con una alta especialización en el ámbito financiero bancario.");
+        listadoCursos.add(c);
+        c = new CicleFlorida("INFORMÀTICA", "Mitjà", "Sistemas Microinformáticos y Redes", "Este Ciclo Formativo de Grado Medio concertado te forma como Técnico/a en Sistemas Microinformáticos y Redes, permitiéndote la especialización posterior en el desarrollo de aplicaciones o la administración de sistemas informáticos.");
+        listadoCursos.add(c);
+        c = new CicleFlorida("INFORMÀTICA", "Superior", "Administración de Sistemas Informáticos y en Red", "Este Ciclo Formativo de Grado Superior concertado te forma como profesional de la informática y las comunicaciones, especializado en la configuración, administración y mantenimiento de sistemas informáticos en red.");
+        listadoCursos.add(c);
+        c = new CicleFlorida("INFORMÀTICA", "Superior", "Desarrollo de Aplicaciones Multiplataforma", "Este NUEVO Ciclo Formativo de Grado Superior concertado te forma como profesional de la informática y las comunicaciones, especializado en el desarrollo, implantación y mantenimiento de aplicaciones para diferentes plataformas tecnológicas.");
+        listadoCursos.add(c);
+        c = new CicleFlorida("INFORMÀTICA", "Superior", "Desarrollo de Aplicaciones Web", "ste NUEVO Ciclo Formativo de Grado Superior privado te forma como profesional de la informática y las comunicaciones, especializado en el desarrollo, implantación y mantenimiento de aplicaciones web");
+        listadoCursos.add(c);
     }
 }
